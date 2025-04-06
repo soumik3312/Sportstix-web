@@ -1,0 +1,1446 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sportix - Book Sports Tickets with Ease</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary-color: #1e88e5;
+            --secondary-color: #ff5722;
+            --dark-color: #333;
+            --light-color: #f4f4f4;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--dark-color);
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #0d47a1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary-color);
+        }
+        
+        .btn-secondary:hover {
+            background: #e64a19;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            margin-bottom: 40px;
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            color: var(--primary-color);
+        }
+        
+        .section-subtitle {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        /* Header */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            width: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+        
+        .nav-menu {
+            display: flex;
+        }
+        
+        .nav-menu li {
+            margin-left: 30px;
+        }
+        
+        .nav-menu a {
+            color: var(--dark-color);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-menu a.active {
+            color: var(--primary-color);
+            position: relative;
+        }
+        
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(to right, #1e88e5, #0d47a1);
+            color: #fff;
+            padding: 160px 0 100px;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        /* Features Section */
+        .features {
+            background-color: var(--light-color);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        /* Upcoming Matches Section */
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .match-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .match-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .match-image {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .match-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .match-card:hover .match-image img {
+            transform: scale(1.1);
+        }
+        
+        .match-details {
+            padding: 20px;
+        }
+        
+        .match-sport {
+            color: var(--secondary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .match-teams {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .match-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .match-date, .match-venue {
+            display: flex;
+            align-items: center;
+        }
+        
+        .match-date i, .match-venue i {
+            margin-right: 5px;
+        }
+        
+        .match-cta {
+            margin-top: 15px;
+        }
+        
+        .match-price {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        /* About Page */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .about-text h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        /* Team Section */
+        .team {
+            background-color: var(--light-color);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .team-member {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+        
+        .member-image {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .member-details {
+            padding: 20px;
+        }
+        
+        .member-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .member-role {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .member-bio {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 5px;
+            color: #777;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark-color);
+            color: #fff;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #fff;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-contact li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .footer-contact i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .app-download img {
+            height: 40px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #bbb;
+        }
+        
+        /* Page Content Styles */
+        .page-header {
+            background: linear-gradient(to right, #1e88e5, #0d47a1);
+            color: #fff;
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .page-content {
+            padding: 80px 0;
+        }
+        
+        .content-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .content-container h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .content-container h3 {
+            font-size: 22px;
+            margin: 30px 0 15px;
+        }
+        
+        .content-container p {
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .content-container ul, .content-container ol {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        
+        .content-container li {
+            margin-bottom: 10px;
+            list-style-type: disc;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                margin-bottom: 30px;
+                order: 1;
+            }
+            
+            .about-text {
+                order: 2;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 0;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                background-color: #fff;
+                width: 80%;
+                height: 100vh;
+                flex-direction: column;
+                padding: 40px;
+                transition: 0.5s;
+                box-shadow: -5px 0 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu li {
+                margin: 0 0 20px 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+        }
+        
+        /* Page Specific Styles */
+        
+        /* User Guide */
+        .guide-step {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background-color: var(--primary-color);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .step-content h3 {
+            margin-top: 0;
+        }
+        
+        /* Terms & Privacy */
+        .legal-section {
+            margin-bottom: 40px;
+        }
+        
+        .legal-section h2 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+        
+        /* Utility Classes for Display Control */
+        .home-content, .about-content-container, .guide-content, .terms-content, .privacy-content, .about-us-content {
+            display: none;
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        /* Current page class for navigation */
+        .current {
+            color: var(--primary-color) !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="/api/placeholder/40/40" alt="Sportix Logo">
+                    <h1>Sportix</h1>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#" class="nav-link" id="homeLink">Home</a></li>
+                    <li><a href="#" class="nav-link" id="aboutLink">About</a></li>
+                    <li><a href="#" class="nav-link" id="guideLink">User Guide</a></li>
+                    <li><a href="#" class="nav-link" id="termsLink">Terms & Conditions</a></li>
+                    <li><a href="#" class="nav-link" id="privacyLink">Privacy Policy</a></li>
+                    <li><a href="#" class="nav-link" id="aboutUsLink">About Us</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span>☰</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page Content -->
+    <div class="home-content show" id="homeContent">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Book Your Sports Tickets with Ease</h1>
+                    <p>Experience the thrill of live sports with Sportix - the ultimate sports ticket booking app with 3D stadium views, chatbot support, and hassle-free cancellations.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn">Download App</a>
+                        <a href="#" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section features">
+            <div class="container">
+                <h2 class="section-title">Why Choose Sportix?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🏟️</div>
+                        <h3 class="feature-title">3D Stadium Views</h3>
+                        <p>Experience the stadium before you go. Our 3D views let you see exactly what you'll see from your seat.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💬</div>
+                        <h3 class="feature-title">Chatbot Support</h3>
+                        <p>Get instant assistance with our 24/7 chatbot support. No more waiting for customer service.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h3 class="feature-title">Anytime Cancellation</h3>
+                        <p>Plans changed? No problem. Cancel your tickets anytime and get a fair refund based on our policy.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎟️</div>
+                        <h3 class="feature-title">Multiple Sports</h3>
+                        <p>From cricket to table tennis, we've got all your favorite sports covered in one convenient app.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3 class="feature-title">Best Prices</h3>
+                        <p>Enjoy competitive pricing and regular discounts. We guarantee the best deals for sports enthusiasts.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3 class="feature-title">Seamless Experience</h3>
+                        <p>Our user-friendly interface makes booking tickets fast, secure, and hassle-free.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Matches Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Upcoming Matches</h2>
+                <div class="matches-grid" id="matchesGrid">
+                    <!-- Match cards will be added here dynamically -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page Content -->
+    <div class="about-content-container" id="aboutContent">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>About Sportix</h1>
+                <p>Discover the story and vision behind the ultimate sports ticket booking app</p>
+            </div>
+        </section>
+
+        <!-- About Content -->
+        <section class="page-content">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="/api/placeholder/600/400" alt="Sportix App Preview">
+                    </div>
+                    <div class="about-text">
+                        <h2>The Ultimate Sports Ticket Experience</h2>
+                        <p>Sportix was born from a simple idea: booking sports tickets should be easy, transparent, and fun. Founded in 2023, we set out to revolutionize how fans experience their favorite sports events.</p>
+                        <p>Our app combines cutting-edge technology with user-friendly design to offer sports enthusiasts a seamless ticket booking experience. With features like 3D stadium views, you can see exactly what you'll see from your seat before making a purchase.</p>
+                        <p>We understand that plans change, which is why we've implemented a flexible cancellation policy that puts you first. And with our 24/7 chatbot support, help is always just a tap away.</p>
+                        <p>Whether you're a cricket fanatic, a basketball enthusiast, or a table tennis lover, Sportix has you covered with a wide range of sporting events across multiple venues.</p>
+                        <a href="#" class="btn">Download Sportix Today</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="section team">
+            <div class="container">
+                <h2 class="section-title">Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="/api/placeholder/300/300" alt="Soumik Chaudhuri">
+                        </div>
+                        <div class="member-details">
+                            <h3 class="member-name">Soumik Chaudhuri</h3>
+                            <p class="member-role">Founder & CEO</p>
+                            <p class="member-bio">A sports enthusiast with App development Skills.</p>
+                            <div class="social-links">
+                                <a href="#"><span>LinkedIn<https://www.linkedin.com/in/soumik-chaudhuri-0bb4b72a8/></a>
+                                <a href="#"><span>GitHub<https://x.com/home></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="/api/placeholder/300/300" alt="Snehal Panda">
+                        </div>
+                        <div class="member-details">
+                            <h3 class="member-name">Snehal Panda</h3>
+                            <p class="member-role">CTO</p>
+                            <p class="member-bio"></p>
+                            <div class="social-links">
+                                <a href="#"><span>LinkedIn</span></a>
+                                <a href="#"><span>GitHub</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-image">
+                            <img src="/api/placeholder/300/300" alt="Sunanda Mondal">
+                        </div>
+                        <div class="member-details">
+                            <h3 class="member-name">Sunanda Mondal</h3>
+                            <p class="member-role">Head of Design</p>
+                            <p class="member-bio"></p>
+                            <div class="social-links">
+                                <a href="#"><span>LinkedIn</span></a>
+                                <a href="#"><span>Instagram</span></a>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- User Guide Content -->
+    <div class="guide-content" id="guideContent">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>User Guide</h1>
+                <p>Learn how to make the most of your Sportix experience</p>
+            </div>
+        </section>
+
+        <!-- Guide Content -->
+        <section class="page-content">
+            <div class="container">
+                <div class="content-container">
+                    <h2>Getting Started with Sportix</h2>
+                    <p>Welcome to Sportix! This guide will help you navigate through our app and make the most of its features.</p>
+
+                    <div class="guide-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Download and Installation</h3>
+                            <p>Download Sportix from the App Store or Google Play Store. After installation, create an account using your email or social media accounts.</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Browsing Events</h3>
+                            <p>Explore upcoming matches by sport, date, or venue. Use filters to narrow down your search and find events that interest you.</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Using 3D Stadium Views</h3>
+                            <p>When selecting seats, tap on the "3D View" button to see a realistic preview of what you'll see from that seat. Rotate and zoom to get a better understanding of the view.</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Booking Tickets</h3>
+                            <p>Select your preferred seats, choose the number of tickets, and proceed to checkout. Review your order and complete the payment using our secure payment gateway.</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>Managing Bookings</h3>
+                            <p>Access your tickets in the "My Bookings" section. Here you can view details, download e-tickets, or initiate cancellations if needed.</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h3>Cancellation Process</h3>
+                            <p>To cancel a booking, go to "My Bookings," select the ticket, and tap "Cancel Booking." Follow the prompts to complete the cancellation. Refunds are processed according to our refund policy.</p>
+                        </div>
+                    </div>
+
+                    <div class="guide-step">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <h3>Using Chatbot Support</h3>
+                            <p>Need help? Tap the chat icon in the bottom right corner to activate our chatbot. Type your question or select from common queries to get instant assistance.</p>
+                        </div>
+                    </div>
+
+                    <h2>Advanced Features</h2>
+                    <p>Explore these additional features to enhance your Sportix experience:</p>
+                    <ul>
+                        <li><strong>Event Reminders:</strong> Set notifications for upcoming events to never miss a match.</li>
+                        <li><strong>Favorite Teams:</strong> Follow your favorite teams to get updates and ticket availability notifications.</li>
+                        <li><strong>Group Bookings:</strong> Book multiple seats together for a group experience.</li>
+                        <li><strong>Venue Information:</strong> Access details about facilities, parking, and food options at the venue.</li>
+                        <li><strong>Loyalty Program:</strong> Earn points with each booking and redeem them for discounts on future purchases.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Terms
+     <!-- Terms and Conditions Content -->
+    <div class="terms-content" id="termsContent">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Terms and Conditions</h1>
+                <p>Please read these terms carefully before using Sportix</p>
+            </div>
+        </section>
+
+        <!-- Terms Content -->
+        <section class="page-content">
+            <div class="container">
+                <div class="content-container">
+                    <div class="legal-section">
+                        <h2>1. Acceptance of Terms</h2>
+                        <p>By downloading, installing, or using the Sportix application ("App"), you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use the App.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>2. Account Registration</h2>
+                        <p>To use certain features of the App, you must register for an account. You agree to provide accurate, current, and complete information during the registration process and to update such information to keep it accurate, current, and complete.</p>
+                        <p>You are responsible for safeguarding your password and for all activities that occur under your account. You agree to notify us immediately of any unauthorized use of your account.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>3. Ticket Purchases</h2>
+                        <p>All ticket purchases are subject to availability and are final upon completion of the booking process, except as set forth in our cancellation policy.</p>
+                        <p>Ticket prices may vary based on demand, venue, event, and other factors. All prices are displayed in the applicable currency and may be subject to taxes and service fees, which will be disclosed prior to purchase.</p>
+                        <p>E-tickets are delivered to your account and can be accessed through the App. It is your responsibility to ensure you have access to your e-tickets at the time of the event.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>4. Cancellation and Refund Policy</h2>
+                        <p>You may cancel your ticket purchase through the App at any time before the event. Refunds will be processed according to the following schedule:</p>
+                        <ul>
+                            <li>Cancellation 7+ days before the event: 100% refund (excluding service fees)</li>
+                            <li>Cancellation 3-6 days before the event: 50% refund</li>
+                            <li>Cancellation less than 3 days before the event: No refund</li>
+                        </ul>
+                        <p>Refunds will be processed to the original payment method within 5-7 business days.</p>
+                        <p>Sportix reserves the right to cancel events due to unforeseen circumstances. In such cases, affected tickets will be fully refunded, including service fees.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>5. Prohibited Activities</h2>
+                        <p>You agree not to engage in any of the following prohibited activities:</p>
+                        <ul>
+                            <li>Using the App for any illegal purpose or in violation of any local, state, national, or international law</li>
+                            <li>Reselling tickets purchased through the App at prices higher than the original purchase price</li>
+                            <li>Attempting to bypass any security measures of the App</li>
+                            <li>Using the App to transmit viruses, malware, or other disruptive code</li>
+                            <li>Impersonating another person or entity, or falsely stating or otherwise misrepresenting your affiliation with a person or entity</li>
+                        </ul>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>6. Intellectual Property</h2>
+                        <p>The App and its original content, features, and functionality are owned by Sportix and are protected by international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.</p>
+                        <p>You may not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on our App, except as incidental to normal use of the App.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>7. Limitation of Liability</h2>
+                        <p>To the maximum extent permitted by law, Sportix shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from:</p>
+                        <ul>
+                            <li>Your access to or use of or inability to access or use the App</li>
+                            <li>Any conduct or content of any third party on the App</li>
+                            <li>Any content obtained from the App</li>
+                            <li>Unauthorized access, use, or alteration of your transmissions or content</li>
+                        </ul>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>8. Modifications to Terms</h2>
+                        <p>Sportix reserves the right to modify these Terms at any time. We will provide notice of significant changes to the Terms by posting the updated Terms on the App and updating the "Last Updated" date at the top of these Terms.</p>
+                        <p>Your continued use of the App after any such changes constitutes your acceptance of the new Terms.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>9. Governing Law</h2>
+                        <p>These Terms shall be governed by and construed in accordance with the laws of [Jurisdiction], without regard to its conflict of law provisions.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>10. Contact Us</h2>
+                        <p>If you have any questions about these Terms, please contact us at support@sportix.com.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Privacy Policy Content -->
+    <div class="privacy-content" id="privacyContent">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Privacy Policy</h1>
+                <p>How we collect, use, and protect your information</p>
+            </div>
+        </section>
+
+        <!-- Privacy Content -->
+        <section class="page-content">
+            <div class="container">
+                <div class="content-container">
+                    <p>Effective Date: April 1, 2025</p>
+                    <p>At Sportix, we take your privacy seriously. This Privacy Policy describes how we collect, use, and disclose your personal information when you use our mobile application and related services.</p>
+
+                    <div class="legal-section">
+                        <h2>1. Information We Collect</h2>
+                        <h3>1.1 Information You Provide to Us</h3>
+                        <p>We collect information you provide directly to us when you:</p>
+                        <ul>
+                            <li>Create an account (name, email address, phone number, password)</li>
+                            <li>Make a purchase (payment information, billing address)</li>
+                            <li>Contact customer support (communication history, issue details)</li>
+                            <li>Complete surveys or provide feedback</li>
+                            <li>Set preferences or update your profile</li>
+                        </ul>
+
+                        <h3>1.2 Information We Collect Automatically</h3>
+                        <p>When you use our App, we automatically collect certain information, including:</p>
+                        <ul>
+                            <li>Device information (device type, operating system, unique device identifiers)</li>
+                            <li>Usage data (features accessed, time spent on the App, interaction with advertisements)</li>
+                            <li>Location data (with your permission)</li>
+                            <li>Transaction data (purchase history, ticket details)</li>
+                        </ul>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>2. How We Use Your Information</h2>
+                        <p>We use the information we collect to:</p>
+                        <ul>
+                            <li>Provide, maintain, and improve our services</li>
+                            <li>Process transactions and send related information</li>
+                            <li>Send you technical notices, updates, security alerts, and support messages</li>
+                            <li>Respond to your comments, questions, and customer service requests</li>
+                            <li>Personalize your experience and deliver content and product offerings relevant to your interests</li>
+                            <li>Monitor and analyze trends, usage, and activities in connection with our services</li>
+                            <li>Detect, investigate, and prevent fraudulent transactions and other illegal activities</li>
+                            <li>Comply with legal obligations</li>
+                        </ul>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>3. Sharing of Information</h2>
+                        <p>We may share your personal information with:</p>
+                        <ul>
+                            <li><strong>Service Providers:</strong> Third-party vendors who provide services on our behalf, such as payment processing, data analysis, email delivery, hosting services, and customer service.</li>
+                            <li><strong>Event Organizers:</strong> We share necessary information with event organizers to facilitate your ticket purchase and entry to events.</li>
+                            <li><strong>Legal Requirements:</strong> When required by law or to respond to legal process; to protect our rights, privacy, safety or property; and to protect our users or the public.</li>
+                        </ul>
+                        <p>We may also share aggregated or de-identified information that cannot reasonably be used to identify you.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>4. Data Security</h2>
+                        <p>We implement appropriate technical and organizational measures to protect the security of your personal information. However, no electronic transmission or storage technology is completely secure, and we cannot guarantee that security measures will prevent unauthorized access to or use of your personal information.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>5. Your Choices</h2>
+                        <h3>5.1 Account Information</h3>
+                        <p>You can update, correct, or delete your account information at any time by logging into your account settings. You may also contact us directly to request access to, correct, or delete personal information we have about you.</p>
+
+                        <h3>5.2 Location Information</h3>
+                        <p>You can prevent our App from accessing your device's location by adjusting the permissions in your device settings.</p>
+
+                        <h3>5.3 Push Notifications</h3>
+                        <p>You can opt out of receiving push notifications through your device settings.</p>
+
+                        <h3>5.4 Marketing Communications</h3>
+                        <p>You can opt out of receiving promotional emails from us by following the instructions in those emails. Even if you opt out, we may still send you non-promotional communications, such as those about your account or our ongoing business relations.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>6. Children's Privacy</h2>
+                        <p>Our services are not directed to children under 16, and we do not knowingly collect personal information from children under 16. If we learn we have collected personal information from a child under 16, we will delete this information.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>7. Changes to This Privacy Policy</h2>
+                        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Effective Date" at the top.</p>
+                        <p>We will provide more prominent notice of material changes, such as by sending an email notification. Your continued use of our services after any changes indicates your acceptance of the new Privacy Policy.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h2>8. Contact Us</h2>
+                        <p>If you have questions or concerns about this Privacy Policy or our data practices, please contact us at:</p>
+                        <p>Email: privacy@sportix.com<br>
+                        Address: 123 Stadium Way, Sports City, SP 12345</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Us Content -->
+    <div class="about-us-content" id="aboutUsContent">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>About Us</h1>
+                <p>The team behind Sportix</p>
+            </div>
+        </section>
+
+        <!-- About Us Content -->
+        <section class="page-content">
+            <div class="container">
+                <div class="content-container">
+                    <h2>Our Story</h2>
+                    <p>Sportix was founded in 2023 by a team of sports enthusiasts and technology experts who recognized a gap in the market for a user-friendly, feature-rich sports ticket booking platform. Our mission is to connect fans with live sporting events through innovative technology that makes the ticket-buying process simple, transparent, and enjoyable.</p>
+                    
+                    <p>What started as a small startup has quickly grown into a trusted platform serving thousands of sports fans across the country. Our team has expanded to include developers, designers, marketers, and customer support specialists who share a passion for sports and technology.</p>
+                    
+                    <h2>Our Vision</h2>
+                    <p>At Sportix, we envision a world where attending live sports events is accessible to everyone. We strive to break down barriers by providing a platform that offers fair pricing, transparent information, and a hassle-free booking experience.</p>
+                    
+                    <p>We believe that the thrill of watching live sports is unmatched, and our goal is to help more people experience that excitement. By leveraging cutting-edge technology like 3D stadium views, we're revolutionizing how fans choose their seats and experience sports venues.</p>
+                    
+                    <h2>Our Values</h2>
+                    <ul>
+                        <li><strong>Fan-First Approach:</strong> Everything we do is designed with the fan experience in mind.</li>
+                        <li><strong>Transparency:</strong> We believe in clear pricing, honest information, and no hidden fees.</li>
+                        <li><strong>Innovation:</strong> We constantly seek new ways to improve and enhance our service.</li>
+                        <li><strong>Inclusivity:</strong> We're committed to making sports events accessible to fans from all walks of life.</li>
+                        <li><strong>Reliability:</strong> You can count on us for secure transactions and dependable service.</li>
+                    </ul>
+                    
+                    <h2>Our Partnerships</h2>
+                    <p>Sportix has established partnerships with major stadiums, sports teams, and event organizers across various sports disciplines. These strategic relationships allow us to offer exclusive deals, priority access, and a wide selection of events to our users.</p>
+                    
+                    <p>Our technology partners help us stay at the forefront of innovation, enabling features like real-time seat availability, 3D stadium visualization, and seamless payment processing.</p>
+                    
+                    <h2>Join Our Team</h2>
+                    <p>We're always looking for talented individuals who share our passion for sports and technology. If you're interested in joining the Sportix team, check out our careers page for current openings.</p>
+                    
+                    <h2>Contact Us</h2>
+                    <p>Have questions, suggestions, or feedback? We'd love to hear from you!</p>
+                    <p>Email: info@sportix.com<br>
+                    Phone: (555) 123-4567<br>
+                    Address: 123 Stadium Way, Sports City, SP 12345</p>
+                    
+                    <p>For customer support inquiries, please contact our support team at support@sportix.com or use the in-app chat feature for immediate assistance.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>About</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" id="footerAboutLink">About Sportix</a></li>
+                        <li><a href="#" id="footerAboutUsLink">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" id="footerTermsLink">Terms & Conditions</a></li>
+                        <li><a href="#" id="footerPrivacyLink">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Help</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" id="footerGuideLink">User Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                        <li><a href="#">Report an Issue</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-contact">
+                        <li><i>📧</i> info@sportix.com</li>
+                        <li><i>📱</i> (555) 123-4567</li>
+                        <li><i>📍</i> 123 Stadium Way, Sports City, SP 12345</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Download App</h3>
+                    <div class="app-download">
+                        <a href="#"><img src="/api/placeholder/150/50" alt="App Store"></a>
+                        <a href="#"><img src="/api/placeholder/150/50" alt="Google Play"></a>
+                    </div>
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Twitter</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Sportix. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Match data
+        const matchesData = [
+            {
+                id: 1,
+                sport: 'Cricket',
+                teams: 'Mumbai Strikers vs Delhi Dynamos',
+                date: 'April 15, 2025',
+                time: '7:00 PM',
+                venue: 'National Cricket Stadium',
+                image: '/api/placeholder/400/250',
+                price: '$45'
+            },
+            {
+                id: 2,
+                sport: 'Football',
+                teams: 'FC United vs Real Tigers',
+                date: 'April 18, 2025',
+                time: '6:30 PM',
+                venue: 'City Football Arena',
+                image: '/api/placeholder/400/250',
+                price: '$35'
+            },
+            {
+                id: 3,
+                sport: 'Basketball',
+                teams: 'Metro Slammers vs City Jumpers',
+                date: 'April 20, 2025',
+                time: '8:00 PM',
+                venue: 'Indoor Sports Complex',
+                image: '/api/placeholder/400/250',
+                price: '$40'
+            },
+            {
+                id: 4,
+                sport: 'Hockey',
+                teams: 'Arctic Wolves vs Glacial Bears',
+                date: 'April 22, 2025',
+                time: '5:30 PM',
+                venue: 'Ice Center',
+                image: '/api/placeholder/400/250',
+                price: '$30'
+            },
+            {
+                id: 5,
+                sport: 'Badminton',
+                teams: 'National Championships - Singles Final',
+                date: 'April 25, 2025',
+                time: '2:00 PM',
+                venue: 'Community Sports Hall',
+                image: '/api/placeholder/400/250',
+                price: '$20'
+            },
+            {
+                id: 6,
+                sport: 'Table Tennis',
+                teams: 'Intercity Tournament - Finals',
+                date: 'April 27, 2025',
+                time: '3:30 PM',
+                venue: 'Table Tennis Academy',
+                image: '/api/placeholder/400/250',
+                price: '$15'
+            }
+        ];
+
+        // DOM elements
+        const navMenu = document.getElementById('navMenu');
+        const hamburger = document.getElementById('hamburger');
+        const matchesGrid = document.getElementById('matchesGrid');
+        
+        // Content divs
+        const homeContent = document.getElementById('homeContent');
+        const aboutContent = document.getElementById('aboutContent');
+        const guideContent = document.getElementById('guideContent');
+        const termsContent = document.getElementById('termsContent');
+        const privacyContent = document.getElementById('privacyContent');
+        const aboutUsContent = document.getElementById('aboutUsContent');
+        
+        // Navigation links
+        const homeLink = document.getElementById('homeLink');
+        const aboutLink = document.getElementById('aboutLink');
+        const guideLink = document.getElementById('guideLink');
+        const termsLink = document.getElementById('termsLink');
+        const privacyLink = document.getElementById('privacyLink');
+        const aboutUsLink = document.getElementById('aboutUsLink');
+        
+        // Footer links
+        const footerAboutLink = document.getElementById('footerAboutLink');
+        const footerAboutUsLink = document.getElementById('footerAboutUsLink');
+        const footerTermsLink = document.getElementById('footerTermsLink');
+        const footerPrivacyLink = document.getElementById('footerPrivacyLink');
+        const footerGuideLink = document.getElementById('footerGuideLink');
+
+        // Toggle hamburger menu
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Populate matches
+        function populateMatches() {
+            matchesGrid.innerHTML = '';
+            matchesData.forEach(match => {
+                const matchCard = document.createElement('div');
+                matchCard.classList.add('match-card');
+                matchCard.innerHTML = `
+                    <div class="match-image">
+                        <img src="${match.image}" alt="${match.teams}">
+                    </div>
+                    <div class="match-details">
+                        <p class="match-sport">${match.sport}</p>
+                        <h3 class="match-teams">${match.teams}</h3>
+                        <div class="match-info">
+                            <span class="match-date">${match.date}, ${match.time}</span>
+                        </div>
+                        <div class="match-venue">${match.venue}</div>
+                        <div class="match-cta">
+                            <p class="match-price">From ${match.price}</p>
+                            <button class="btn btn-secondary">Book Now</button>
+                        </div>
+                    </div>
+                `;
+                matchesGrid.appendChild(matchCard);
+            });
+        }
+
+        // Show content function
+        function showContent(contentDiv) {
+            // Hide all content divs
+            homeContent.classList.remove('show');
+            aboutContent.classList.remove('show');
+            guideContent.classList.remove('show');
+            termsContent.classList.remove('show');
+            privacyContent.classList.remove('show');
+            aboutUsContent.classList.remove('show');
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('current');
+            });
+            
+            // Show selected content
+            contentDiv.classList.add('show');
+            
+            // Close mobile menu if open
+            navMenu.classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Event listeners for navigation
+        homeLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(homeContent);
+            homeLink.classList.add('current');
+        });
+
+        aboutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(aboutContent);
+            aboutLink.classList.add('current');
+        });
+
+        guideLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(guideContent);
+            guideLink.classList.add('current');
+        });
+
+        termsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(termsContent);
+            termsLink.classList.add('current');
+        });
+
+        privacyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(privacyContent);
+            privacyLink.classList.add('current');
+        });
+
+        aboutUsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(aboutUsContent);
+            aboutUsLink.classList.add('current');
+        });
+
+        // Footer links
+        footerAboutLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(aboutContent);
+            aboutLink.classList.add('current');
+        });
+
+        footerAboutUsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(aboutUsContent);
+            aboutUsLink.classList.add('current');
+        });
+
+        footerTermsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(termsContent);
+            termsLink.classList.add('current');
+        });
+
+        footerPrivacyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(privacyContent);
+            privacyLink.classList.add('current');
+        });
+
+        footerGuideLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showContent(guideContent);
+            guideLink.classList.add('current');
+        });
+
+        // Initialize
+        window.onload = function() {
+            populateMatches();
+            // Set Home as active by default
+            homeLink.classList.add('current');
+        };
+    </script>
+</body>
+</html>
